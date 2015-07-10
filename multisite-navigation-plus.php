@@ -23,7 +23,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 //- Only load on admin
-add_action('_admin_menu', array('Multisite_Navigation_Plus', 'init'));
+add_action('init', array('Multisite_Navigation_Plus', 'init'));
 
 if ( ! class_exists( 'Multisite_Navigation_Plus' ) ) :   
     
