@@ -70,9 +70,14 @@ class Multisite_Navigation_Plus {
 
             $sites = [];
             
+            //- https://developer.wordpress.org/reference/functions/get_sites/
             $_sites = get_sites();
 
             foreach ( $_sites as $site ) {
+
+                //- exclude archived sites
+                if( $site->archived == 1 ){ continue; }
+
                 $sites[ $site->id ] = (object) array(
                     'userblog_id' => $site->id,
                     'blogname'    => $site->blogname,
