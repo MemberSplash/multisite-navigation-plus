@@ -23,7 +23,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 //- Only load on admin
-add_action('init', array('Multisite_Navigation_Plus', 'init'));
+add_action( 'init', [ 'Multisite_Navigation_Plus', 'init' ] );
 
 if ( ! class_exists( 'Multisite_Navigation_Plus' ) ) :   
     
@@ -33,35 +33,83 @@ class Multisite_Navigation_Plus {
 
     //- Enforce singleton pattern
     public static function init() {
-            //- check to make sure we're on a multisite install
-            if ( is_multisite() && ! isset( self::$_instance ) && ! ( self::$_instance instanceof Multisite_Navigation_Plus ) ) {
-                    self::$_instance = new Multisite_Navigation_Plus;
-            }
-            return self::$_instance;
+
+        //- check to make sure we're on a multisite install
+        if ( is_multisite() && ! isset( self::$_instance ) && ! ( self::$_instance instanceof Multisite_Navigation_Plus ) ) {
+            self::$_instance = new Multisite_Navigation_Plus;
+        }
+        return self::$_instance;
     }
     
     //- Add filters when the class is instantiated
     public function __construct(){
+        
+        //- For super admins return a list of all blogs, not just the ones they belong to
+        add_filter( 'pre_get_blogs_of_user', [ __CLASS__, 'show_all_blogs' ], 10, 2 );
+
         //- Make the admin list of sites in the network be alphabetical - found in wp-includes/user.php line 1220
-        add_filter('get_blogs_of_user', array($this, 'sort_my_sites'));
+        add_filter( 'get_blogs_of_user', [ __CLASS__, 'sort_my_sites' ] );
+
         //- Add the blog ID to the title in the browser nav tab */
-        add_filter( 'admin_title', array($this, 'modify_admin_title'));
+        add_filter( 'admin_title', [ __CLASS__, 'modify_admin_title' ] );
+
+    }
+
+
+    /**
+     * Fires before a user's list of sites is populated. If you supply any value
+     * to it other than null it short circuits get_blogs_of_user() and returns
+     * the values you provide.
+     * 
+     * https://developer.wordpress.org/reference/hooks/pre_get_blogs_of_user/
+     */
+    public static function show_all_blogs( $blogs, $user_id ){
+        
+        //- for super admins get all blogs, not just the ones they are added to
+        if( is_super_admin( $user_id ) ){
+
+            $sites = [];
+            
+            $_sites = get_sites();
+
+            foreach ( $_sites as $site ) {
+                $sites[ $site->id ] = (object) array(
+                    'userblog_id' => $site->id,
+                    'blogname'    => $site->blogname,
+                    'domain'      => $site->domain,
+                    'path'        => $site->path,
+                    'site_id'     => $site->network_id,
+                    'siteurl'     => $site->siteurl
+                );
+            }
+
+            return self::sort_my_sites( $sites );
+
+        }
+
+        return null;
+
     }
     
     //- Sorts the list of blogs alphabetically and prepends the blog ID
-    function sort_my_sites($blogs) {
-        uasort($blogs, function($a, $b){ 
-            return strcasecmp($a->blogname, $b->blogname);
+    public static function sort_my_sites( $blogs ) {
+        
+        uasort( $blogs, function( $a, $b ){ 
+            return strcasecmp( $a->blogname, $b->blogname );
         });
-        array_walk($blogs, function($blog, $key){
+
+        array_walk( $blogs, function( $blog, $key ){
             $blog->blogname = "{$key}. {$blog->blogname}";
-        });
+        } );
+
         return $blogs;
     }
 
     //- Adds the blog ID to the browser nav tab
-    function modify_admin_title($admin_title){
+    public static function modify_admin_title( $admin_title ){
+
         return get_current_blog_id().". ".$admin_title;
+
     }
 }
 
