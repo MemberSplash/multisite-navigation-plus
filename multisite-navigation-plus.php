@@ -47,7 +47,7 @@ if (!class_exists('Multisite_Navigation_Plus')) :
         public function __construct()
         {
 
-            // add JavaScript to filter based on search input
+            //- Add JavaScript to filter based on search input
             wp_enqueue_script('multisite-filter', plugins_url('/multisite-filter.js', __FILE__));
 
             //- For super admins return a list of all blogs, not just the ones they belong to
