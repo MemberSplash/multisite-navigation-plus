@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: Multisite Navigation Plus
  * Description: Makes administering large WordPress multi-site networks easier by sorting the sites alphabetically and displaying the blog ID in the admin bar.
