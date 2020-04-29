@@ -2,9 +2,9 @@
 /**
  * Plugin Name: Multisite Navigation Plus
  * Description: Makes administering large WordPress multi-site networks easier by sorting the sites alphabetically and displaying the blog ID in the admin bar.
- * Author: Jamie Currie / wunderdojo, LLC
- * Author URI: http://wunderdojo.com
- * Version: 1.0
+ * Author: James Currie, Dane Maison
+ * Author URI: https://membersplash.com
+ * Version: 1.1.0
  * Multisite Navigation Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
@@ -46,7 +46,7 @@ if (!class_exists('Multisite_Navigation_Plus')) :
         //- Add filters when the class is instantiated
         public function __construct()
         {
-
+       
             //- Add JavaScript to filter based on search input
             wp_enqueue_script('multisite-filter', plugins_url('/multisite-filter.js', __FILE__));
 
