@@ -1,0 +1,46 @@
+#wpadminbar #wp-admin-bar-my-sites-super-admin {
+  width: 110%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  background: #32373c;
+}
+#wpadminbar #wp-admin-bar-my-sites-list {
+  width: 110%;
+}
+
+#wpadminbar #multisite-searchbar {
+  position: relative;
+  width: 100%;
+}
+
+#multisite-searchbar .multisite-searchbar__input {
+  height: 100%;
+  width: calc(100% - 22px);
+  padding: 11px 11px;
+  margin-top: 4px;
+  border: none;
+  background-color: white;
+  color: black;
+}
+
+#multisite-searchbar .multisite-searchbar__input:focus {
+  outline: none;
+}
+
+#multisite-searchbar .multisite-searchbar__cancel-button {
+  position: absolute;
+  cursor: pointer;
+  top: 7px;
+  right: 11px;
+  width: 11px;
+  height: 11px;
+  color: red;
+  font-size: 20px;
+  line-height: 1;
+  border: none;
+  font-weight: bold;
+  opacity: 0.75;
+}
+
+#multisite-searchbar .multisite-searchbar__cancel-button:focus {
+  outline: none;
+}
