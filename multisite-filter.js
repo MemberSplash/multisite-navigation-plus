@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
       .on("input", function (e) {
         filterList(siteList, e.currentTarget.value);
       })
-      .focusout(clearInput);
+      .focusout(function(){
+        setTimeout(clearInput, 500);
+      });
 
     button
       .addClass("multisite-searchbar__cancel-button")
