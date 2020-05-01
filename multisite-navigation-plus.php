@@ -4,7 +4,7 @@
  * Description: Makes administering large WordPress multi-site networks easier by sorting the sites alphabetically and displaying the blog ID in the admin bar.
  * Author: James Currie, Dane Maison
  * Author URI: https://membersplash.com
- * Version: 1.1.0
+ * Version: 1.2.0
  * Multisite Navigation Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
@@ -46,9 +46,12 @@ if (!class_exists('Multisite_Navigation_Plus')) :
         //- Add filters when the class is instantiated
         public function __construct()
         {
-       
+
             //- Add JavaScript to filter based on search input
             wp_enqueue_script('multisite-filter', plugins_url('/multisite-filter.js', __FILE__));
+
+            //- Add CSS to style the list and input
+            wp_enqueue_style('style', plugins_url('/style.css', __FILE__));
 
             //- For super admins return a list of all blogs, not just the ones they belong to
             add_filter('pre_get_blogs_of_user', [__CLASS__, 'show_all_blogs'], 10, 2);
